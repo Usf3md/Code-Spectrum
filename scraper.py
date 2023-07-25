@@ -4,13 +4,15 @@ from selenium.webdriver import ChromeOptions
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 from subprocess import CREATE_NO_WINDOW
 import pygame
 import os
 import time
 
 with open(r"Assets\Data\user_data.txt", "r") as file:
-    TIME_DELAY = float(list(map(lambda x: x.split(": ")[1], file.read().split("\n")))[0])
+    TIME_DELAY = float(
+        list(map(lambda x: x.split(": ")[1], file.read().split("\n")))[0])
 
 
 class Scraper():
@@ -55,8 +57,8 @@ class Scraper():
         self.driver.get("https://ray.so/")
         ActionChains(self.driver).send_keys(
             f"{self.color*'c'}{self.padding*'p'}{self.dark_theme*'d'}{self.background*'b'}l{language.lower()}").perform()
-        self.driver.find_element_by_xpath(
-            '//*[@id="app"]/main/section/div[5]/div/div/div/div[2]/div[2]').click()
+        self.driver.find_element(By.XPATH,
+                                 '//*[@id="app"]/main/section/div[5]/div/div/div/div[2]/div[2]').click()
 
     def get_suffix_files(self, dir_name="."):
         list_of_file = os.listdir(dir_name)
@@ -128,11 +130,11 @@ class Scraper():
                 if "# BREAKER TOKEN" in code:
                     self.total_files -= 1
                     continue
-            self.driver.find_element_by_class_name("title").click()
+            self.driver.find_element(By.CLASS_NAME, "title").click()
             ActionChains(self.driver).key_down(Keys.CONTROL).send_keys("a").key_up(Keys.CONTROL).key_down(Keys.BACKSPACE).key_up(
                 Keys.BACKSPACE).send_keys(f"{self.file_prefix} {file_name}").key_down(Keys.PAGE_DOWN).key_up(Keys.PAGE_DOWN).perform()
             time.sleep(TIME_DELAY)
-            self.driver.find_element_by_class_name("CodeMirror-code").click()
+            self.driver.find_element(By.CLASS_NAME, "CodeMirror-code").click()
             time.sleep(TIME_DELAY)
             ActionChains(self.driver).key_down(Keys.CONTROL).send_keys("a").key_up(
                 Keys.CONTROL).key_down(Keys.BACKSPACE).key_up(Keys.BACKSPACE).perform()
@@ -145,8 +147,8 @@ class Scraper():
                     ActionChains(self.driver).key_down(Keys.ENTER).key_up(Keys.ENTER).key_down(Keys.LEFT_SHIFT).key_down(
                         Keys.HOME).key_up(Keys.LEFT_SHIFT).key_up(Keys.HOME).send_keys(line).perform()
                 pygame.event.pump()
-            self.driver.find_element_by_xpath(
-                '//*[@id="app"]/main/section/div[6]/div/button').click()
+            self.driver.find_element(By.XPATH,
+                                     '//*[@id="app"]/main/section/div[6]/div/button').click()
             time.sleep(TIME_DELAY)
             self.downloaded += 1
             self.display_text(win)

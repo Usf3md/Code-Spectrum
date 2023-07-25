@@ -5,7 +5,6 @@ try:
     from utils import *
     from data import *
 
-
     def app():
         width = 1024
         height = 512
@@ -77,7 +76,8 @@ try:
                 if main_pad.event_check(event):
                     for pad in paddings:
                         if pad is main_pad:
-                            image_name[1] = str((paddings.index(pad) + 2) % 4 + 1)
+                            image_name[1] = str(
+                                (paddings.index(pad) + 2) % 4 + 1)
                             continue
                         pad.checked = False
                         if not pad.correct_arrangment:
@@ -136,7 +136,6 @@ try:
             win.fill((19, 19, 19))
 
         pygame.quit()
-
 
     if __name__ == "__main__":
         app()
